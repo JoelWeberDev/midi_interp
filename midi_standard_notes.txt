@@ -1,0 +1,35 @@
+# Notable Notes about the MIDI standard
+
+
+# Data input standards and conventions
+    ## General track format
+        MThd <length of header data>
+        <header data>
+        MTrk <length of track data>
+        <track data>
+        MTrk <length of track data>
+        <track data>
+        ...
+
+    ## Header input order:
+        a. <chunk type> = MThd = 4d 54 68 64 = 01001101010101000110100001100100
+        b. <length of header data>(32-bits); lsb on the left; this is the number of bytes that will follow 
+        c. <format>(16-bits) 
+            0-the file contains a single multi-channel track
+            1-the file contains one or more simultaneous tracks (or MIDI outputs) of a sequence
+            2-the file contains one or more sequentially independent single-track patterns 
+        d. <ntrks>(16-bits) number of tracks in the file
+        e. <division>(16-bits) meanings of delta times. See sources for more details
+
+    ## Track format and order:
+        1. track header: a stream of MTrk events
+            a. <chunk type>(32-bits) = MTrk = 4d 54 72 6b = 01001101010101000111001001101011
+            b. <length of header data>(32-bits); lsb on the left; this is the number of bytes that will follow 
+            c. <MTrk event> one or more
+                I. <delta-time>(16-bits); a delta time of 0 is used at the start and for simultaneous events; delta times are typically fractions of a beat
+                II. <event>
+
+
+## Sources
+    http://www.music.mcgill.ca/~ich/classes/mumt306/StandardMIDIfileformat.html
+
